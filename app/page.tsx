@@ -36,13 +36,13 @@ const projects = [
   },
   {
     number: "04",
-    type: "PROMOTIONAL DESIGN",
-    title: "BEM FTI — Open PO — Promotional Poster",
+    type: "CONTENT CREATION",
+    title: "Collaborative Short-form Video",
     description:
-      "Designed a promotional poster to communicate pre-order information and attract potential buyers through clear, engaging visuals.",
-    role: "Poster design & visual communication",
-    image: "/images/bem/poster-1.jpg",
-    link: "",
+      "Collaborated on short-form social media content by contributing creative ideas, directing the video, and appearing on camera to bring the concept to life.",
+    role: "Creative ideation, directing & on-camera talent",
+    image: "/images/bem/video-1.jpeg",
+    link: "https://www.instagram.com/reel/DT9V05Fk7dj/?dlrf=MW5wYm5tcnl1MXZoeA==",
   },
   {
     number: "05",
@@ -56,13 +56,13 @@ const projects = [
   },
   {
     number: "06",
-    type: "CONTENT CREATION",
-    title: "Collaborative Short-form Video",
+    type: "PROMOTIONAL DESIGN",
+    title: "BEM FTI — Open PO — Promotional Poster",
     description:
-      "Collaborated on short-form social media content by contributing creative ideas, directing the video, and appearing on camera to bring the concept to life.",
-    role: "Creative ideation, directing & on-camera talent",
-    image: "/images/bem/video-1.jpeg",
-    link: "https://www.instagram.com/reel/DT9V05Fk7dj/?dlrf=MW5wYm5tcnl1MXZoeA==",
+      "Designed a promotional poster to communicate pre-order information and attract potential buyers through clear, engaging visuals.",
+    role: "Poster design & visual communication",
+    image: "/images/bem/poster-1.jpg",
+    link: "",
   },
   {
     number: "07",
@@ -85,18 +85,21 @@ const capabilities = [
   "Creative collaboration",
 ];
 
+
 function ProjectImage({
   src,
   title,
+  imageClass = "aspect-[4/3]",
 }: {
   src: string;
   title: string;
+  imageClass?: string;
 }) {
   const [failed, setFailed] = useState(false);
 
   if (!src || failed) {
     return (
-      <div className="flex aspect-[4/3] flex-col justify-between rounded-sm border border-[#e6d9d0] bg-[#f1e7df] p-5">
+      <div className={`flex ${imageClass} flex-col justify-between rounded-sm border border-[#e6d9d0] bg-[#f1e7df] p-5`}>
         <span className="text-[10px] uppercase tracking-[0.2em] text-[#94756b]">
           Project preview
         </span>
@@ -115,17 +118,18 @@ function ProjectImage({
   }
 
   return (
-    <div className="aspect-[4/3] overflow-hidden bg-[#f1e7df]">
+    <div className={`flex ${imageClass} items-center justify-center overflow-hidden bg-[#f1e7df]`}>
       <img
         src={src}
         alt={title}
         loading="lazy"
         onError={() => setFailed(true)}
-        className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.025]"
+        className="h-full w-full object-contain transition duration-500 group-hover:scale-[1.025]"
       />
     </div>
   );
 }
+
 
 export default function Home() {
   return (
@@ -316,11 +320,19 @@ export default function Home() {
           <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2">
             {projects.map((project) => (
               <article key={project.number} className="group min-w-0">
-                <div className="relative">
+                <div className="relative">          
                   <ProjectImage
                     src={project.image}
                     title={project.title}
+                    imageClass={
+                      project.type === "PROMOTIONAL DESIGN"
+                        ? "aspect-[3/4]"
+                        : project.type === "CONTENT CREATION"
+                          ? "aspect-video"
+                          : "aspect-[4/3]"
+                    }
                   />
+
 
                   <span className="absolute left-3 top-3 bg-[#faf8f4] px-3 py-1.5 text-[10px] tracking-[0.12em] text-[#766b64]">
                     {project.number}
